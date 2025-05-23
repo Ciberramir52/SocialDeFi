@@ -1,12 +1,22 @@
 {
   "canisters": {
-    "SocialDeFi_backend": {
-      "main": "src/SocialDeFi_backend/main.mo",
+    "user": {
+      "main": "src/SocialDeFi_backend/user/main.mo",
+      "type": "motoko"
+    },
+    "token": {
+      "main": "src/SocialDeFi_backend/token/main.mo",
+      "type": "motoko"
+    },
+    "nft": {
+      "main": "src/SocialDeFi_backend/nft/main.mo",
       "type": "motoko"
     },
     "SocialDeFi_frontend": {
       "dependencies": [
-        "SocialDeFi_backend"
+        "user",
+        "token",
+        "nft"
       ],
       "source": [
         "src/SocialDeFi_frontend/dist"
