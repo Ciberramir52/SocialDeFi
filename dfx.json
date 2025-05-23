@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "SocialDeFi_backend": {
+      "main": "src/SocialDeFi_backend/main.mo",
+      "type": "motoko"
+    },
+    "SocialDeFi_frontend": {
+      "dependencies": [
+        "SocialDeFi_backend"
+      ],
+      "source": [
+        "src/SocialDeFi_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "SocialDeFi_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
