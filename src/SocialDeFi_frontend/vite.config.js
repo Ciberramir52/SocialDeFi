@@ -9,6 +9,8 @@ dotenv.config({ path: '../../.env' });
 export default defineConfig({
   build: {
     emptyOutDir: true,
+    // outDir: '../dist', // Match dfx.json frontend config
+    // emptyOutDir: true
   },
   optimizeDeps: {
     esbuildOptions: {
