@@ -14,5 +14,9 @@
   "type": "module",
   "workspaces": [
     "src/SocialDeFi_frontend"
-  ]
+  ],
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.5.0",
+    "vite": "^6.3.5"
+  }
 }

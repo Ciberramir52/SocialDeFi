@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { SocialDeFi_backend } from 'declarations/SocialDeFi_backend';
+// import { SocialDeFi_backend } from 'declarations/SocialDeFi_backend';
 
 function App() {
   const [greeting, setGreeting] = useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
-    const name = event.target.elements.name.value;
-    SocialDeFi_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
+    // const name = event.target.elements.name.value;
+    // SocialDeFi_backend.greet(name).then((greeting) => {
+    //   setGreeting(greeting);
+    // });
+    console.log("Hola")
     return false;
   }
 

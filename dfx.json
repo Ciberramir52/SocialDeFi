@@ -1,22 +1,29 @@
 {
   "canisters": {
-    "user": {
-      "main": "src/SocialDeFi_backend/user/main.mo",
+    "TokenCanister": {
+      "main": "src/SocialDeFi_backend/token/TokenCanister.mo",
       "type": "motoko"
     },
-    "token": {
-      "main": "src/SocialDeFi_backend/token/main.mo",
-      "type": "motoko"
+    "UserCanister": {
+      "main": "src/SocialDeFi_backend/user/UserCanister.mo",
+      "type": "motoko",
+      "dependencies": ["TokenCanister"]
     },
-    "nft": {
-      "main": "src/SocialDeFi_backend/nft/main.mo",
+    "StackingPool": {
+      "main": "src/SocialDeFi_backend/token/StackingPool.mo",
+      "type": "motoko",
+      "dependencies": ["TokenCanister"]
+    },
+    "NFTCanister": {
+      "main": "src/SocialDeFi_backend/nft/NFTCanister.mo",
       "type": "motoko"
     },
     "SocialDeFi_frontend": {
       "dependencies": [
-        "user",
-        "token",
-        "nft"
+        "UserCanister",
+        "TokenCanister",
+        "StackingPool",
+        "NFTCanister"
       ],
       "source": [
         "src/SocialDeFi_frontend/dist"

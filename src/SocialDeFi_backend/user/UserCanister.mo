@@ -8,6 +8,7 @@ import Error "mo:base/Error";
 import Array "mo:base/Array";
 import Debug "mo:base/Debug";
 import Option "mo:base/Option";
+import TokenCanister "canister:TokenCanister";
 
 actor UserCanister {
     let users = HashMap.HashMap<Text, UserProfile>(0, Text.equal, Text.hash);
@@ -55,6 +56,7 @@ actor UserCanister {
                 let username = "user-" # Principal.toText(caller);
                 let avatarUrl = "http://www.clsdmrs.com/profile/" # Principal.toText(caller);
                 let newUser = createUser(Principal.toText(caller), username, avatarUrl);
+                await TokenCanister.authorizeMinter(caller);
                 return newUser;
             };
         };
@@ -120,6 +122,8 @@ actor UserCanister {
             case null [];
         };
         userPostsIndex.put(user.principalId, Array.append(currentPosts, [postId]));
+
+        await TokenCanister.mint(Principal.fromText(user.principalId), 10_000_000);
 
         newPost;
     };
@@ -206,7 +210,7 @@ actor UserCanister {
 
     // Update Post
     public shared ({ caller }) func updatePost(id : Text, new_content : Text) {
-        let user = await authenticateWithCaller(caller);
+        let _ = await authenticateWithCaller(caller);
         let post : ?Post = posts.get(id);
         switch (post) {
             case (null) {
@@ -221,7 +225,7 @@ actor UserCanister {
     };
 
     // Add likes to Post
-    public shared ({ caller }) func likePost(postId : Text) {
+    public shared ({ caller }) func likePost(postId : Text): async () {
         let userId = (await authenticateWithCaller(caller)).principalId;
         let post : ?Post = await getPost(postId);
         switch (post) {
@@ -235,6 +239,7 @@ actor UserCanister {
                     currentPost with likes = newLikes;
                 };
                 posts.put(postId, newPost);
+                await TokenCanister.mint(Principal.fromText(currentPost.authorId), 5_000_000);
                 Debug.print("Post actualizado");
             };
         };
@@ -259,7 +264,7 @@ actor UserCanister {
 
     // Delete Post
     public shared ({ caller }) func deletePost(postId : Text) : async () {
-        let user = await authenticateWithCaller(caller);
+        let _ = await authenticateWithCaller(caller);
         let post = posts.get(postId);
         switch (post) {
             case (?currentPost) {
